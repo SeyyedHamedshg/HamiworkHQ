@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HamiWorkHQ — شخصی</title>
+<meta name="description" content="وبسایت شخصی حامد | تحلیل داده و اقتصاد" />
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-RD-font-face.css" rel="stylesheet" type="text/css" />
+
+<style>
+/* ================= CONFIG & THEMES ================= */
+:root{
+  /* --- تم پیش‌فرض (مشکی براق) --- */
+  --bg: #050505; 
+  --card-bg: linear-gradient(145deg, #1a1a1d 0%, #101012 100%);
+  --text: #eeeeee;
+  --muted: #9e9ea7;
+  --accent: #ffd700; /* طلایی */
+  --accent-glow: rgba(255, 215, 0, 0.4);
+  
+  --glass: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.09);
+  --radius: 24px;
+  --maxw: 900px;
+  --font: 'Vazirmatn RD', sans-serif;
+}
+
+/* --- تم‌های رنگی --- */
+body.theme-ocean { --accent: #00d2ff; --accent-glow: rgba(0, 210, 255, 0.4); }
+body.theme-rose { --accent: #ff2e63; --accent-glow: rgba(255, 46, 99, 0.4); }
+body.theme-mint { --accent: #00e676; --accent-glow: rgba(0, 230, 118, 0.4); }
+
+/* --- حالت روشن --- */
+body.light {
+  --bg: #eef2f6; 
+  --card-bg: #ffffff;
+  --text: #222;
+  --muted: #666;
+  --glass: rgba(0,0,0,0.03);
+  --border: rgba(0,0,0,0.08);
+  --accent-glow: rgba(0,0,0,0.1); 
+}
+/* اصلاح رنگ‌ها در حالت روشن */
+body.light.theme-ocean { --accent: #0077cc; }
+body.light.theme-rose { --accent: #d60040; }
+body.light.theme-mint { --accent: #00b374; }
+
+/* Base Styles */
+*{box-sizing:border-box}
+html { min-height: 100%; scroll-behavior: smooth; }
+body{
+  min-height: 100vh; margin:0; font-family:var(--font);
+  color:var(--text); background:var(--bg);
+  transition:background 0.4s ease, color 0.4s ease;
+  display:flex; justify-content:center; padding:20px 15px;
+}
+
+/* Container & Card */
+.container{ width:100%; max-width:var(--maxw); position:relative; z-index:1; }
+
+.card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  border-radius:var(--radius);
+  padding:35px; 
+  backdrop-filter:blur(12px);
+}
+body.light .card { box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+
+/* Header */
+.header{
+  display:flex; flex-direction:column; align-items:center; text-align:center; gap:15px;
+  padding-bottom:25px; border-bottom:1px solid var(--border);
+}
+
+.profile-pic{
+  width:120px; height:120px; border-radius:50%;
+  border:2px solid var(--accent);
+  box-shadow:0 0 25px var(--accent-glow);
+  overflow:hidden; margin-bottom:5px;
+  background:#111; display:flex; align-items:center; justify-content:center;
+  transition:0.4s; cursor: pointer;
+}
+.profile-pic:hover{ transform:scale(1.05) rotate(5deg); } /* چرخش بامزه موقع هاور */
+.profile-pic img{ width:100%; height:100%; object-fit:cover; }
+.profile-pic span{ font-size:40px; opacity:0.5; }
+
+.intro h1{ margin:0; font-size:28px; font-weight:900; letter-spacing:-0.5px; }
+/* استایل متن تایپی */
+.intro p{ 
+  margin:10px 0 0; color:var(--muted); font-size:15px; line-height:1.8; 
+  max-width:550px; min-height: 54px; /* جلوگیری از پرش ارتفاع */
+}
+.cursor-blink { animation: blink 1s infinite; border-right: 2px solid var(--accent); }
+@keyframes blink { 0%, 100% { border-color: transparent; } 50% { border-color: var(--accent); } }
+
+/* Control Bar */
+.controls{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:15px; }
+.btn-ctrl{
+  background:var(--glass); border:1px solid var(--border); color:var(--muted);
+  padding:8px 18px; border-radius:50px; cursor:pointer; font-size:13px; font-weight:500;
+  transition:all 0.2s; display:flex; align-items:center; gap:6px; font-family: inherit;
+}
+.btn-ctrl:hover{ background:var(--border); color:var(--accent); border-color:var(--accent); }
+
+/* Layout */
+.grid-layout{ display:grid; grid-template-columns:1fr 1.5fr; gap:30px; margin-top:30px; }
+@media(max-width:850px){ .grid-layout{ grid-template-columns:1fr; } }
+
+/* Typography */
+h3{ margin:0 0 18px; font-size:17px; color:var(--accent); display:flex; align-items:center; gap:10px; font-weight:800; }
+h3::before{ content:''; display:block; width:8px; height:8px; background:var(--accent); border-radius:50%; box-shadow:0 0 10px var(--accent); }
+
+/* Links */
+.link-box{
+  display:flex; align-items:center; gap:14px; padding:12px;
+  background:var(--glass); border-radius:16px; border:1px solid var(--border);
+  margin-bottom:12px; transition:0.3s; text-decoration:none; color:var(--text);
+}
+.link-box:hover{ border-color:var(--accent); transform:translateX(-5px); background:rgba(255,255,255,0.05); }
+.link-icon{ width:38px; height:38px; border-radius:12px; background:rgba(255,255,255,0.03); display:flex; align-items:center; justify-content:center; font-size:20px; }
+
+/* --- NEW: Skill Bars (Animated) --- */
+.skill-bar-container { margin-bottom: 12px; }
+.skill-label { display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; color:var(--text); }
+.skill-track { width:100%; height:6px; background:var(--glass); border-radius:10px; border:1px solid var(--border); overflow:hidden; }
+.skill-fill { height:100%; background:var(--accent); width:0; transition: width 1.5s ease-out; border-radius:10px; box-shadow: 0 0 10px var(--accent-glow); }
+
+/* --- NEW: Mini Calculator --- */
+.calc-box {
+  background:var(--glass); border:1px solid var(--border); border-radius:18px; padding:15px;
+  margin-top:25px; text-align:center;
+}
+.calc-inputs { display:flex; gap:10px; margin-bottom:10px; }
+.calc-input { 
+  width:50%; background:rgba(0,0,0,0.2); border:1px solid var(--border); color:var(--text);
+  padding:8px; border-radius:8px; font-family:inherit; text-align:center; outline:none;
+}
+.calc-btn {
+  width:100%; background:var(--accent); border:none; padding:8px; border-radius:8px;
+  color:#000; font-weight:bold; cursor:pointer; font-family:inherit;
+}
+.calc-result { margin-top:10px; font-size:14px; color:var(--muted); }
+.calc-result span { color:var(--accent); font-weight:bold; font-size:16px; }
+
+/* Articles */
+.article-item{
+  background:var(--glass); border-radius:18px; margin-bottom:12px; border:1px solid var(--border); overflow:hidden;
+}
+.art-head{ 
+  padding:16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; 
+  font-weight:700; font-size:14px; transition:0.2s;
+}
+.art-head:hover{ color:var(--accent); background:rgba(255,255,255,0.02); }
+.art-body{ 
+  padding:0 16px 16px; font-size:14px; line-height:1.8; color:var(--muted); 
+  display:none; border-top:1px solid var(--border); padding-top:12px; 
+}
+
+/* Portfolio */
+.portfolio-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:15px; }
+.port-card{
+  border:1px solid var(--border); border-radius:16px; padding:10px;
+  background:var(--glass); transition:0.3s;
+}
+.port-card:hover{ border-color:var(--accent); transform:translateY(-3px); }
+.port-visual{
+  height: 80px; border-radius:12px; margin-bottom:10px;
+  display:flex; align-items:center; justify-content:center; 
+  color:#fff; font-weight:bold; text-shadow:0 2px 4px rgba(0,0,0,0.3);
+}
+.port-meta{ display:flex; justify-content:space-between; align-items:center; padding:0 4px; }
+.port-title{ font-size:13px; font-weight:700; }
+.port-link{ font-size:11px; color:var(--accent); text-decoration:none; border-bottom:1px dashed var(--accent); }
+
+/* Footer */
+.footer{ text-align:center; margin-top:40px; font-size:13px; color:var(--muted); opacity:0.5; }
+
+/* Animation Helpers */
+.fade-in{ animation: fadeIn 0.6s ease forwards; opacity:0; transform:translateY(20px); }
+@keyframes fadeIn { to{ opacity:1; transform:none; } }
+
+</style>
+</head>
+<body class="">
+
+<div class="container">
+  <div class="card">
+    
+    <div class="header fade-in" style="animation-delay:0.1s">
+      <div class="profile-pic">
+        <img src="profile.jpg" alt="Profile" onerror="this.style.display='none';this.parentNode.innerHTML='<span>👤</span>'">
+      </div>
+      
+      <div class="intro">
+        <h1>HamiWork</h1>
+        <p id="typewriter-text"></p>
+      </div>
+
+      <div class="controls">
+        <button class="btn-ctrl" id="langBtn">فارسی / EN</button>
+        <button class="btn-ctrl" id="themeBtn">🎨 تم رنگی</button>
+        <button class="btn-ctrl" id="modeBtn">🌙 شب/روز</button>
+      </div>
+    </div>
+
+    <div class="grid-layout">
+      
+      <div class="right-col fade-in" style="animation-delay:0.2s">
+        <h3>ارتباط با من</h3>
+        
+        <a href="https://t.me/HamiWorkHQ" target="_blank" class="link-box">
+          <div class="link-icon">📢</div>
+          <div class="link-info"><span style="display:block;font-weight:bold">کانال تلگرام</span><span style="font-size:12px;color:var(--muted)">اخبار و تحلیل‌ها</span></div>
+        </a>
+
+        <a href="https://t.me/itsHa3ed" target="_blank" class="link-box">
+          <div class="link-icon">✈️</div>
+          <div class="link-info"><span style="display:block;font-weight:bold">پیام مستقیم</span><span style="font-size:12px;color:var(--muted)">سفارش پروژه</span></div>
+        </a>
+
+        <a href="https://x.com/HamedIdeas" target="_blank" class="link-box">
+          <div class="link-icon">🐦</div>
+          <div class="link-info"><span style="display:block;font-weight:bold">توییتر (X)</span><span style="font-size:12px;color:var(--muted)">یادداشت‌های کوتاه</span></div>
+        </a>
+
+        <a href="https://instagram.com" target="_blank" class="link-box">
+          <div class="link-icon">📸</div>
+          <div class="link-info"><span style="display:block;font-weight:bold">اینستاگرام</span><span style="font-size:12px;color:var(--muted)">روزمرگی‌ها</span></div>
+        </a>
+
+        <div style="margin-top:30px">
+          <h3>مهارت‌ها (تکنیکال)</h3>
+          
+          <div class="skill-bar-container">
+            <div class="skill-label"><span>اکسل و فرمول‌نویسی</span><span>95%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:95%"></div></div>
+          </div>
+
+          <div class="skill-bar-container">
+            <div class="skill-label"><span>تحلیل اقتصادی</span><span>85%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:85%"></div></div>
+          </div>
+
+          <div class="skill-bar-container">
+            <div class="skill-label"><span>پاورپوینت & ارائه</span><span>90%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:90%"></div></div>
+          </div>
+
+          <div class="skill-bar-container">
+            <div class="skill-label"><span>طراحی داشبورد</span><span>80%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="width:80%"></div></div>
+          </div>
+
+        </div>
+
+        <div class="calc-box">
+          <div style="font-size:13px; margin-bottom:8px; font-weight:bold;">🧮 محاسبه سود ساده</div>
+          <div class="calc-inputs">
+            <input type="number" id="calc-amount" class="calc-input" placeholder="مبلغ (تومان)">
+            <input type="number" id="calc-rate" class="calc-input" placeholder="سود %">
+          </div>
+          <button class="calc-btn" onclick="calculateInterest()">حساب کن</button>
+          <div class="calc-result" id="calc-res">سود سالانه شما چقدر میشه؟</div>
+        </div>
+
+      </div>
+
+      <div class="left-col fade-in" style="animation-delay:0.3s">
+        
+        <h3>نوشته‌های خودمونی</h3>
+        <div id="articles">
+          <div class="article-item">
+            <div class="art-head">💰 چرا پولمون بی‌ارزش میشه؟ <span>▼</span></div>
+            <div class="art-body">
+              ساده‌ش اینه: وقتی "پول" توی بازار زیاد باشه ولی "کالا" کم باشه، تورم میشه. مثل اینه که ۱۰ نفر بخوان یه نون بخرن! قیمت نون میره بالا.
+            </div>
+          </div>
+
+          <div class="article-item">
+            <div class="art-head">📈 دلار بخریم یا طلا؟ <span>▼</span></div>
+            <div class="art-body">
+              اگه دیدت کوتاه‌مدته (زیر ۶ ماه)، دلار نوسانش زیاده. اما طلا همیشه با تورم جهانی و داخلی خودش رو تطبیق میده. برای حفظ ارزش پول در بلندمدت، طلا امن‌تره.
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:35px">
+          <h3>گالری پروژه‌ها</h3>
+          <div class="portfolio-grid">
+            
+            <div class="port-card">
+              <div class="port-visual" style="background:linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);">داشبورد فروش</div>
+              <div class="port-meta">
+                <span class="port-title">اکسل فروش</span>
+                <a href="#" class="port-link">دانلود فایل 📥</a>
+              </div>
+            </div>
+
+            <div class="port-card">
+              <div class="port-visual" style="background:linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);">گزارش مالی</div>
+              <div class="port-meta">
+                <span class="port-title">نمونه PDF</span>
+                <a href="#" class="port-link">دانلود فایل 📥</a>
+              </div>
+            </div>
+
+            <div class="port-card">
+              <div class="port-visual" style="background:linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);">تحلیل بورس</div>
+              <div class="port-meta">
+                <span class="port-title">تحلیل تکنیکال</span>
+                <a href="#" class="port-link">مشاهده 👁️</a>
+              </div>
+            </div>
+
+            <div class="port-card">
+              <div class="port-visual" style="background:linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">پرزنت</div>
+              <div class="port-meta">
+                <span class="port-title">قالب PPT</span>
+                <a href="#" class="port-link">دانلود فایل 📥</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="margin-top:30px; text-align:center;">
+          <a href="#" style="font-size:12px; color:var(--muted); text-decoration:none; border-bottom:1px dotted var(--muted);">☕ دعوتم کن به یک قهوه (Donation)</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      © 2025 HamiWorkHQ — Designed by Hamed
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ============ CONFIG ============
+const THEMES = ['', 'theme-ocean', 'theme-rose', 'theme-mint'];
+let currentThemeIndex = 0;
+
+// متن برای تایپ شدن
+const TYPING_TEXTS = {
+  fa: "این یه سایت کوچیک و شخصیه که خودم با HTML ساختمش. هدفم اینه که خیلی ساده و خودمونی درباره داده‌ها و اقتصاد گپ بزنیم.",
+  en: "This is a personal site I built with HTML. My goal is to chat about data and economics in a simple, friendly way."
+};
+
+// ============ LOGIC ============
+const themeBtn = document.getElementById('themeBtn');
+const modeBtn = document.getElementById('modeBtn');
+const langBtn = document.getElementById('langBtn');
+const body = document.body;
+
+// 1. تم رنگی
+themeBtn.addEventListener('click', () => {
+  THEMES.forEach(t => { if(t) body.classList.remove(t); });
+  currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
+  if(THEMES[currentThemeIndex]) body.classList.add(THEMES[currentThemeIndex]);
+});
+
+// 2. شب/روز
+modeBtn.addEventListener('click', () => {
+  body.classList.toggle('light');
+  modeBtn.textContent = body.classList.contains('light') ? '☀️ روز/شب' : '🌙 شب/روز';
+});
+
+// 3. ماشین حساب ساده
+function calculateInterest() {
+  const amt = parseFloat(document.getElementById('calc-amount').value);
+  const rate = parseFloat(document.getElementById('calc-rate').value);
+  const resBox = document.getElementById('calc-res');
+  
+  if(amt && rate) {
+    const profit = (amt * rate) / 100;
+    resBox.innerHTML = `سود یک ساله: <span>${profit.toLocaleString()}</span> تومان`;
+  } else {
+    resBox.innerHTML = "لطفا اعداد رو وارد کن رفیق!";
+  }
+}
+
+// 4. تایپ رایتر (Typewriter Effect)
+let isFa = true;
+let typeInterval;
+
+function startTyping(text) {
+  const el = document.getElementById('typewriter-text');
+  el.innerHTML = '<span class="cursor-blink">|</span>'; // نشانگر موس
+  let i = 0;
+  clearInterval(typeInterval); // پاک کردن قبلی
+  
+  typeInterval = setInterval(() => {
+    // متن تا اینجا + نشانگر
+    el.innerHTML = text.substring(0, i+1) + '<span class="cursor-blink">|</span>';
+    i++;
+    if(i === text.length) clearInterval(typeInterval);
+  }, 40); // سرعت تایپ (میلی ثانیه)
+}
+
+// شروع اولیه
+startTyping(TYPING_TEXTS.fa);
+
+// تغییر زبان و ریست کردن تایپ
+langBtn.addEventListener('click', () => {
+  isFa = !isFa;
+  langBtn.textContent = isFa ? 'فارسی / EN' : 'EN / FA';
+  body.dir = isFa ? 'rtl' : 'ltr';
+  
+  // شروع تایپ جدید
+  startTyping(isFa ? TYPING_TEXTS.fa : TYPING_TEXTS.en);
+  
+  // تغییر تیترها (خلاصه)
+  const h3s = document.querySelectorAll('h3');
+  if(!isFa) {
+    h3s[0].textContent = "Contact Me";
+    h3s[1].textContent = "Technical Skills";
+    h3s[2].textContent = "Friendly Notes";
+    h3s[3].textContent = "Project Gallery";
+  } else {
+    h3s[0].textContent = "ارتباط با من";
+    h3s[1].textContent = "مهارت‌ها (تکنیکال)";
+    h3s[2].textContent = "نوشته‌های خودمونی";
+    h3s[3].textContent = "گالری پروژه‌ها";
+  }
+});
+
+// 5. آکاردئون
+document.querySelectorAll('.art-head').forEach(head => {
+  head.addEventListener('click', () => {
+    const b = head.nextElementSibling;
+    const open = b.style.display === 'block';
+    document.querySelectorAll('.art-body').forEach(x => x.style.display = 'none');
+    if(!open) b.style.display = 'block';
+  });
+});
+
+// انیمیشن پر شدن نوار مهارت‌ها در لود اولیه
+window.addEventListener('load', () => {
+  // چون استایل عرض توی HTML ست شده، فقط کافیه مطمئن شیم رندر شده
+  // انیمیشن توسط CSS transition انجام میشه
+});
+
+</script>
+</body>
+</html>
